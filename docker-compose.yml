@@ -3,6 +3,7 @@ version: "3.7"
 services:
     # image project
     app:
+        container_name: maker
         build:
             context: .
             dockerfile: Dockerfile
@@ -17,10 +18,11 @@ services:
 
     # nginx
     nginx:
+        container_name: maker-nginx
         image: nginx:alpine
         restart: unless-stopped
         ports:
-            - "8989:80"
+            - "3097:80"
         volumes:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
@@ -29,6 +31,7 @@ services:
 
     # db mysql
     db:
+        container_name: maker-db
         image: mysql:5.7.22
         restart: unless-stopped
         environment:
@@ -39,26 +42,17 @@ services:
         volumes:
             - ./.docker/mysql/dbdata:/var/lib/mysql
         ports:
-            - "3388:3306"
-        networks:
-            - laravel
-
-    # PHPMyAdmin
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        restart: unless-stopped
-        ports:
-            - "8080:80"
-        environment:
-            PMA_HOST: db
-            PMA_PORT: 3306
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-userpass}
+            - "3389:3306"
         networks:
             - laravel
 
     # redis
     redis:
+        container_name: maker-redis
         image: redis:latest
+        volumes:
+            - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+        command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
         networks:
             - laravel
 
