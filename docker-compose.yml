@@ -32,7 +32,7 @@ services:
     # db mysql
     db:
         container_name: maker-db
-        image: mysql:5.7.22
+        image: mariadb:10.4
         restart: unless-stopped
         environment:
             MYSQL_DATABASE: ${DB_DATABASE:-laravel}
