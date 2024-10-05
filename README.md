@@ -74,6 +74,7 @@ Gerar a key do projeto Laravel
 php artisan key:generate
 ```
 
-
-Acessar o projeto
-[http://localhost:8989](http://localhost:8989)
+Criar migrações
+```sh
+php artisan migrate
+```
