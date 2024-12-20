@@ -18,15 +18,21 @@ Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', function (Request $request) {
+Route::post('/get-token', function (Request $request) {
     $credentials = $request->only(['email', 'password']);
 
     if (!$token = auth()->attempt($credentials)) {
-        abort(401, 'Unautorized');
+        return response()->json([
+        'data' => [
+            'code' => 401,
+            'message' => 'Login ou senha incorretos!'
+        ]
+    ]);
     }
 
     return response()->json([
         'data' => [
+            'code' => 200,
             'token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
