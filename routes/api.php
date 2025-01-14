@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\SegmentController;
+use App\Http\Controllers\TokenController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,28 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Users routes
+Route::post('/register', [UserController::class, 'register'])->name('register');
+Route::post('/user', [UserController::class, 'user'])->name('user');
 
-Route::post('/get-token', function (Request $request) {
-    $credentials = $request->only(['email', 'password']);
-
-    if (!$token = auth()->attempt($credentials)) {
-        return response()->json([
-        'data' => [
-            'code' => 401,
-            'message' => 'Login ou senha incorretos!'
-        ]
-    ]);
-    }
-
-    return response()->json([
-        'data' => [
-            'code' => 200,
-            'token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]
-    ]);
-});
+// Token
+Route::post('/get-token', [TokenController::class, 'getToken'])->name('getToken');
