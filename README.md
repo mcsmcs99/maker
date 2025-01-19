@@ -78,3 +78,11 @@ Criar migrações
 ```sh
 php artisan migrate
 ```
+--Solicitar o jwt
+composer require tymon/jwt-auth
+
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+
+--Rodar o Seeder
+php artisan db:seed
+

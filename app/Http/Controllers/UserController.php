@@ -20,7 +20,7 @@ class UserController extends Controller
                 'email'    => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
             ];
-    
+
             $request->validate($rules);
 
             // Se falhar a validação, retorna erro
@@ -38,6 +38,8 @@ class UserController extends Controller
                 'segment_id'  => $request->input('segment_id'),
                 'sub_segment_id'  => $request->input('sub_segment_id'),
                 'password' => Hash::make($request->input('password')),
+                'whatsapp' => $request->input('whatsapp'),
+                'type' => $request->input('type')
             ]);
 
             // Retorno de sucesso
